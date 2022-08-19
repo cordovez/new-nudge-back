@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import { CORE_AVATAR_FIELDS } from "./fragments";
 const USERS = gql`
   {
-    usersPermissionsUsers {
+    usersPermissionsUsers(pagination: { limit: 20 }) {
       data {
         id
         attributes {

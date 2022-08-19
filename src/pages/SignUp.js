@@ -1,13 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
-import { setToken } from "../helpers/auth/auth";
+import { setToken } from "../unusedFiles_ref/auth";
+import { useNavigate } from "react-router";
 const SignUP = () => {
+  const navigate = useNavigate();
+
   const [data, setData] = useState({
     username: "",
     firstName: "",
     email: "",
     password: "",
   });
+
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,20 +29,12 @@ const SignUP = () => {
 
       const res = await axios.post("http://localhost:1337/api/users", reqBody);
       if (res.statusText === "Created") {
-        // setActiveUser(res.data);
-        // setLoggedIn(true);
-
-        // navigate("/");
-        console.log(res.data);
         setToken(res.data);
+        navigate("/");
       }
     } catch (error) {
-      console.log({ message: error });
+      return error;
     }
-  };
-
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   return (

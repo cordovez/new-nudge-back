@@ -1,9 +1,12 @@
 import { useQuery } from "@apollo/client";
 import { ALL_EVENTS } from "../GraphQL/eventQueries";
 import { Link } from "react-router-dom";
+// import { useFetchUser } from "../helpers/auth/authContext";
+
 // const EVENTS =
 
 const Events = () => {
+  // const { data: uData } = useFetchUser();
   const { loading, error, data } = useQuery(ALL_EVENTS);
 
   if (loading) return <p>data is loading</p>;

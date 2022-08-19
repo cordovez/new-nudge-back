@@ -1,11 +1,11 @@
 import axios from "axios";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 // auth imports
-import { unsetToken, setToken } from "../helpers/auth/auth";
-import { useUser } from "../helpers/auth/authContext";
+import { LoggedIn } from "../helpers/auth/userContext";
+import { setToken } from "../unusedFiles_ref/auth";
 
 const { REACT_APP_PUBLIC_STRAPI_URL } = process.env;
 
@@ -13,20 +13,23 @@ const Login = () => {
   const navigate = useNavigate();
 
   // for auth purposes:
+  const { setLoggedIn } = useContext(LoggedIn);
+
   const [data, setData] = useState({ identifier: "", password: "" });
-  const { user, loading } = useUser();
+  // const { user, loading } = useUser();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const response = await axios.post(
-      `${REACT_APP_PUBLIC_STRAPI_URL}auth/local`,
+      `${REACT_APP_PUBLIC_STRAPI_URL}/auth/local`,
       {
         identifier: data.identifier,
         password: data.password,
       }
     );
     setToken(response.data);
+    setLoggedIn(true);
     navigate("/events");
   };
   const handleChange = (event) => {
